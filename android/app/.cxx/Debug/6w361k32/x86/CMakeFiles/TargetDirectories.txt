@@ -1,0 +1,2 @@
+C:/Users/Isti/Documents/Csilla/allamvizsga/allamvizsga/android/app/.cxx/Debug/6w361k32/x86/CMakeFiles/edit_cache.dir
+C:/Users/Isti/Documents/Csilla/allamvizsga/allamvizsga/android/app/.cxx/Debug/6w361k32/x86/CMakeFiles/rebuild_cache.dir
