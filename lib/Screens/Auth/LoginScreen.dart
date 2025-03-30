@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:allamvizsga/Screens/Auth/RegistrationScreen.dart';
 import 'package:allamvizsga/Screens/Home/home_screen.dart';
-import 'package:allamvizsga/Screens/Mainscreens/News/news_screen.dart';
-import 'package:allamvizsga/Screens/WelcomeScreen/WelcomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:allamvizsga/network/constants.dart' as constant;
@@ -123,14 +121,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    Text(
-                      'Or',
-                      style: TextStyle(fontSize: 16, color: Colors.grey),
-                    ),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Dont have account?', style: TextStyle(fontSize: 16)),
+                        Text('Dont have account?', style: TextStyle(fontSize: 16, color: Colors.white)),
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).push(

@@ -94,10 +94,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/logo.png', // A logó képfájlja
-                    height: 100,
-                  ),
+
                   SizedBox(height: 20),
                   Text(
                     'Create account',
@@ -146,7 +143,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     },
                     child: Text(
                       'Log in',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                        color: Colors.orange,
+                      fontSize: 18),
                     ),
                   ),
                 ],

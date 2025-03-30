@@ -1,3 +1,5 @@
+import 'package:allamvizsga/Screens/Mainscreens/Events/EventsScreen.dart';
+import 'package:allamvizsga/Screens/Mainscreens/ProfileScreen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:allamvizsga/screens/Mainscreens/News/news_screen.dart';
 
@@ -20,10 +22,10 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     screens = [
       NewsScreen(),
+      Events(),
       NewsScreen(),
       NewsScreen(),
-      NewsScreen(),
-      NewsScreen(),
+      ProfileScreen(userId: widget.userId),
     ];
   }
 
@@ -39,7 +41,7 @@ class _MainScreenState extends State<MainScreen> {
             _currentIndex = index;
           });
         },
-        selectedItemColor: Colors.red,
+        selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.black,
         backgroundColor: Colors.white,
         selectedFontSize: 14,

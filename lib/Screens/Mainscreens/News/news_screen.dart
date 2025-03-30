@@ -1,11 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:allamvizsga/network/constants.dart' as constant;
-import 'package:lucide_icons/lucide_icons.dart';
 
 class Article {
   final String title;
@@ -55,7 +53,7 @@ class _NewsScreenState extends State<NewsScreen> {
   final List<Map<String, dynamic>> categories = [
     {'name': 'All', 'icon': Icons.all_inbox_outlined},
     {'name': 'Local', 'icon': Icons.pin_drop_outlined},
-    {'name': 'Culture', 'icon': Icons.masks_outlined},
+    {'name': 'Culture', 'icon': Icons.theater_comedy_outlined},
     {'name': 'Sports', 'icon': Icons.sports_football},
   ];
 
@@ -81,7 +79,12 @@ class _NewsScreenState extends State<NewsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: Stack(
+          children: [
+      Container(
+      color: Color(0xFFEBEBEB),
+
+      child: Column(
         children: [
           Container(
             padding: EdgeInsets.symmetric(vertical: 20),
@@ -90,7 +93,8 @@ class _NewsScreenState extends State<NewsScreen> {
               children: [
                 Text('News', style: TextStyle(fontSize: 32,
                     color: Colors.white,
-                    fontWeight: FontWeight.bold)),
+                    fontWeight: FontWeight.bold)
+                ),
                 SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -137,6 +141,10 @@ class _NewsScreenState extends State<NewsScreen> {
           ),
         ],
       ),
+
+    ),
+  ],
+    ),
     );
   }
 
