@@ -1,4 +1,5 @@
 import 'package:allamvizsga/Screens/Mainscreens/Events/EventsScreen.dart';
+import 'package:allamvizsga/Screens/Mainscreens/Places/PlacesScreen.dart';
 import 'package:allamvizsga/Screens/Mainscreens/ProfileScreen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:allamvizsga/screens/Mainscreens/News/news_screen.dart';
@@ -22,9 +23,9 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     screens = [
       NewsScreen(),
-      Events(),
+      Events(userId: widget.userId),
       NewsScreen(),
-      NewsScreen(),
+      PlacesScreen(),
       ProfileScreen(userId: widget.userId),
     ];
   }

@@ -5,9 +5,13 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:allamvizsga/network/constants.dart' as constants;
 import 'DetailScreens/ListWidget_DetailScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 
 class Events extends StatefulWidget {
-  const Events({Key? key}) : super(key: key);
+  final String userId;
+  const Events({Key? key, required this.userId}) : super(key: key);
 
   @override
   _EventsState createState() => _EventsState();
@@ -21,6 +25,16 @@ class _EventsState extends State<Events> {
   void initState() {
     super.initState();
     fetchCultureData();
+    loadFavorites();
+  }
+
+  Future<void> loadFavorites() async {
+    try {
+      favoriteIds = await getFavoriteEvents(widget.userId); // widget.userId-t kell használni
+      setState(() {});
+    } catch (e) {
+      print("Hiba a kedvencek betöltésekor: $e");
+    }
   }
 
   Future<void> fetchCultureData() async {
@@ -43,7 +57,39 @@ class _EventsState extends State<Events> {
     );
   }
 
-  void toggleFavorite(String id, bool isFavorite) {
+  Future<List<String>> getFavoriteEvents(String userId) async {
+    final response = await http.get(Uri.parse('${constants.cim}get_favorites.php?user_id=$userId'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      List<String> favoriteEventIds = data.map((event) => event['event_id'].toString()).toList(); // Az id-ket stringgé konvertáljuk
+      return favoriteEventIds;
+    } else {
+      throw Exception('Hiba történt a kedvencek lekérése közben');
+    }
+  }
+
+  Future<void> toggleFavoriteOnServer(String userId, String eventId, bool isFavorite) async {
+    final response = await http.post(
+      Uri.parse('${constants.cim}favorites.php'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'user_id': userId,
+        'event_id': eventId,
+        'is_favorite': isFavorite,
+      }),
+    );
+    print('Raw response: ${response.body}');
+
+    if (response.statusCode == 200) {
+      final result = json.decode(response.body);
+      print(result['message']);
+    } else {
+      print('Hiba: ${response.statusCode}');
+    }
+  }
+
+  toggleFavorite(String id, bool isFavorite) {
     setState(() {
       if (isFavorite) {
         favoriteIds.add(id);
@@ -51,6 +97,8 @@ class _EventsState extends State<Events> {
         favoriteIds.remove(id);
       }
     });
+
+    toggleFavoriteOnServer(widget.userId, id, isFavorite); // widget.userId-t kell használni
   }
 
   @override
@@ -77,11 +125,13 @@ class _EventsState extends State<Events> {
             const SizedBox(height: 10),
             Column(
               children: cultures?.map<Widget>((cultureData) {
+                final isFavorite = favoriteIds.contains(cultureData['event_id'].toString());
                 return ListCard(
                   cultureData: cultureData,
                   onPressed: navigateToDetailListScreen,
                   favoriteIds: favoriteIds,
                   onFavoriteToggle: toggleFavorite,
+                  isFavorite: isFavorite,
                 );
               }).toList() ?? [],
             ),

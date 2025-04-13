@@ -13,7 +13,7 @@ class ListCard extends StatefulWidget {
     required this.cultureData,
     required this.onPressed,
     required this.favoriteIds,
-    required this.onFavoriteToggle,
+    required this.onFavoriteToggle, required bool isFavorite,
   }) : super(key: key);
 
   @override
@@ -26,12 +26,12 @@ class _ListCardState extends State<ListCard> {
   @override
   void initState() {
     super.initState();
-    isFavorite = widget.favoriteIds.contains(widget.cultureData['event_id']);
+    isFavorite = widget.favoriteIds.contains(widget.cultureData['event_id'].toString());
   }
 
   @override
   Widget build(BuildContext context) {
-    final String id = widget.cultureData['event_id'] ?? '';
+    final String id = widget.cultureData['event_id']?.toString() ?? '';
     final String eventDate = widget.cultureData['event_date'] ?? '';
     final String eventType = widget.cultureData['event_type'] ?? 'Nincs típus';
 

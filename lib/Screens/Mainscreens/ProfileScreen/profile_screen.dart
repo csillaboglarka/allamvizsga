@@ -1,8 +1,7 @@
 import 'package:allamvizsga/Screens/Auth/LoginScreen.dart';
+import 'package:allamvizsga/Screens/Mainscreens/ProfileScreen/Screens/about_screen.dart';
+import 'package:allamvizsga/Screens/Mainscreens/ProfileScreen/Screens/favorites_screen.dart';
 import 'package:allamvizsga/network/apiclient.dart';
-import 'package:allamvizsga/screens/Mainscreens/ProfileScreen/about_screen.dart';
-import 'package:allamvizsga/screens/Mainscreens/ProfileScreen/send_feedback.dart';
-import 'package:allamvizsga/screens/Mainscreens/ProfileScreen/update_email.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -102,9 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => UpdateEmailPage(
-          userId: widget.userId,
-          currentEmail: _email,
+        builder: (context) => AboutScreen(
         ),
       ),
     );
@@ -216,11 +213,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => SendFeedbackScreen(
-                            userId: widget.userId,
-                            firstName: _firstName,
-                            lastName: _lastName,
-
+                          builder: (context) => AboutScreen(
                           ),
                         ),
                       );
@@ -282,7 +275,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) {
-                            return AboutScreen();
+                            return Favorites(userId: widget.userId);
                           },
                         ),
                       );
