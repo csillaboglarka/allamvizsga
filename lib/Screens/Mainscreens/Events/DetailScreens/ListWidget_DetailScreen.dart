@@ -309,20 +309,20 @@ class _DetailListScreenState extends State<DetailListScreen> {
           }
 
           final data = snapshot.data!;
-          final eventImage = data['event_image1'] ?? ''; // Kép URL
-          final eventDate = data['event_date'] ?? ''; // Dátum
-          final eventCity = data['event_city'] ?? ''; // Város
-          final eventName = data['event_name'] ?? ''; // Esemény neve
+          final eventImage = data['event_image1'] ?? '';
+          final eventDate = data['event_date'] ?? '';
+          final eventCity = data['event_city'] ?? '';
+          final eventName = data['event_name'] ?? '';
 
           return Column(
             children: [
               Container(
-                height: 200, // A kép kívánt magassága
-                width: double.infinity, // A kép szélessége teljes képernyőre
+                height: 200,
+                width: double.infinity,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(eventImage), // Kép URL betöltése
-                    fit: BoxFit.cover, // A kép kitölti a rendelkezésre álló teret
+                    image: NetworkImage(eventImage),
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
@@ -335,19 +335,17 @@ class _DetailListScreenState extends State<DetailListScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Első rész - Kép
                       Container(
                         padding: EdgeInsets.all(10),
                         child: Text(
-                          eventCity, // Itt jelenik meg a város
+                          eventCity,
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black, // Fehér szöveg a kék háttéren
+                            color: Colors.black,
                           ),
                         ),
                       ),
-                      // Második rész - Esemény információk
                       Row(
                         children: [
                           Icon(Icons.calendar_today, color: Colors.grey),
@@ -355,8 +353,8 @@ class _DetailListScreenState extends State<DetailListScreen> {
                           Container(
                             padding: EdgeInsets.all(10),
                             child: Text(
-                              eventDate, // A dátum, amit az API-tól kaptunk
-                              style: TextStyle(color: Colors.black), // Fehér szöveg
+                              eventDate,
+                              style: TextStyle(color: Colors.black),
                             ),
                           ),
                         ],
@@ -369,15 +367,14 @@ class _DetailListScreenState extends State<DetailListScreen> {
                           Container(
                             padding: EdgeInsets.all(10),
                             child: Text(
-                              eventCity, // A város adatot az event_city kulcsból tölti be
-                              style: TextStyle(color: Colors.black), // Fehér szöveg
+                              eventCity,
+                              style: TextStyle(color: Colors.black),
                             ),
                           ),
                         ],
                       ),
                       SizedBox(height: 20),
 
-                      // Harmadik rész - Leírás
                       Text(
                         'About the Event',
                         style: TextStyle(

@@ -1,6 +1,74 @@
+import 'package:allamvizsga/Screens/Mainscreens/Places/Screens/CategoryListScreen.dart';
 import 'package:flutter/material.dart';
 
-class PlacesScreen extends StatelessWidget {
+class PlacesScreen extends StatefulWidget {
+  @override
+  _PlacesScreenState createState() => _PlacesScreenState();
+}
+
+class _PlacesScreenState extends State<PlacesScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  final List<Map<String, String>> _categories = [
+    {'name': 'Museums', 'image': 'assets/museum.png', 'category': 'Museum'},
+    {'name': 'Buildings', 'image': 'assets/museum.png'},
+    {'name': 'Parks', 'image': 'assets/museum.png'},
+    {'name': 'Statues', 'image': 'assets/museum.png'},
+    {'name': 'Attractions', 'image': 'assets/museum.png'},
+    {'name': 'Wellness/Spa', 'image': 'assets/museum.png'},
+  ];
+
+  List<Map<String, String>> _filteredCategories = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _filteredCategories = _categories;
+    _searchController.addListener(_filterCategories);
+  }
+
+  void _filterCategories() {
+    final query = _searchController.text.toLowerCase();
+    setState(() {
+      _filteredCategories = _categories
+          .where((category) =>
+          category['name']!.toLowerCase().contains(query))
+          .toList();
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  Widget _buildCategoryItem(Map<String, String> category) {
+    return Card(
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+      child: ListTile(
+        leading: Image.asset(
+          category['image']!,
+          width: 50,
+          height: 50,
+          fit: BoxFit.cover,
+        ),
+        title: Text(category['name']!),
+        trailing: Icon(Icons.arrow_forward_ios),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CategoryListScreen(
+                categoryName: category['category']!,
+                title: category['name']!,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +109,7 @@ class PlacesScreen extends StatelessWidget {
               child: Column(
                 children: [
                   TextField(
+                    controller: _searchController,
                     decoration: InputDecoration(
                       hintText: 'Write something here',
                       prefixIcon: Icon(Icons.location_on, color: Colors.grey),
@@ -56,7 +125,9 @@ class PlacesScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.orange,
                         padding: EdgeInsets.symmetric(vertical: 10),
@@ -76,6 +147,15 @@ class PlacesScreen extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _filteredCategories.length,
+              itemBuilder: (context, index) {
+                return _buildCategoryItem(_filteredCategories[index]);
+              },
             ),
           ),
         ],
