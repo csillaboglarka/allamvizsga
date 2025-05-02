@@ -1,6 +1,7 @@
 import 'package:allamvizsga/Screens/Mainscreens/Events/EventsScreen.dart';
 import 'package:allamvizsga/Screens/Mainscreens/Places/PlacesScreen.dart';
 import 'package:allamvizsga/Screens/Mainscreens/ProfileScreen/profile_screen.dart';
+import 'package:allamvizsga/Screens/Mainscreens/Transport/TransportScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:allamvizsga/screens/Mainscreens/News/news_screen.dart';
 
@@ -24,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
     screens = [
       NewsScreen(),
       Events(userId: widget.userId),
-      NewsScreen(),
+      TransportScreen(),
       PlacesScreen(),
       ProfileScreen(userId: widget.userId),
     ];
@@ -50,11 +51,11 @@ class _MainScreenState extends State<MainScreen> {
         items: const [
           BottomNavigationBarItem(
 
-            icon: Icon(Icons.newspaper),
+            icon: Icon(Icons.newspaper_outlined),
             label: 'News',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.event),
+            icon: Icon(Icons.event_note),
             label: 'Events',
           ),
           BottomNavigationBarItem(
