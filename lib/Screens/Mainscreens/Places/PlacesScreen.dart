@@ -8,13 +8,13 @@ class PlacesScreen extends StatefulWidget {
 
 class _PlacesScreenState extends State<PlacesScreen> {
   final TextEditingController _searchController = TextEditingController();
+
   final List<Map<String, String>> _categories = [
     {'name': 'Museums', 'image': 'assets/museum.png', 'category': 'Museum'},
-    {'name': 'Buildings', 'image': 'assets/museum.png'},
-    {'name': 'Parks', 'image': 'assets/museum.png'},
-    {'name': 'Statues', 'image': 'assets/museum.png'},
-    {'name': 'Attractions', 'image': 'assets/museum.png'},
-    {'name': 'Wellness/Spa', 'image': 'assets/museum.png'},
+    {'name': 'Parks', 'image': 'assets/Parks.png', 'category': 'Park'},
+    {'name': 'Statues', 'image': 'assets/Statues.png', 'category': 'Statues'},
+    {'name': 'Attractions', 'image': 'assets/attractions.png', 'category': 'Attractions'},
+    {'name': 'Wellness/Spa', 'image': 'assets/Pool_Spa.png', 'category': 'Wellness'},
   ];
 
   List<Map<String, String>> _filteredCategories = [];
@@ -43,28 +43,50 @@ class _PlacesScreenState extends State<PlacesScreen> {
   }
 
   Widget _buildCategoryItem(Map<String, String> category) {
-    return Card(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-      child: ListTile(
-        leading: Image.asset(
-          category['image']!,
-          width: 50,
-          height: 50,
-          fit: BoxFit.cover,
-        ),
-        title: Text(category['name']!),
-        trailing: Icon(Icons.arrow_forward_ios),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CategoryListScreen(
-                categoryName: category['category']!,
-                title: category['name']!,
-              ),
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CategoryListScreen(
+              categoryName: category['category']!,
+              title: category['name']!,
             ),
-          );
-        },
+          ),
+        );
+      },
+      child: Card(
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: Container(
+          padding: EdgeInsets.all(16),
+          height: 100,
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  category['image']!,
+                  width: 70,
+                  height: 70,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              SizedBox(width: 20),
+              Expanded(
+                child: Text(
+                  category['name']!,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Icon(Icons.arrow_forward_ios, size: 20),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -149,7 +171,6 @@ class _PlacesScreenState extends State<PlacesScreen> {
               ),
             ),
           ),
-          SizedBox(height: 10),
           Expanded(
             child: ListView.builder(
               itemCount: _filteredCategories.length,

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:allamvizsga/network/constants.dart' as constant;
 
 class TaxiScreen extends StatefulWidget {
   const TaxiScreen({super.key});
@@ -21,7 +22,7 @@ class _TaxiScreenState extends State<TaxiScreen> {
   }
 
   Future<void> fetchTaxis() async {
-    const String url = 'http://192.168.1.104/user_api/get_taxi.php';
+    const String url = '${constant.cim}get_taxi.php';
 
     try {
       final response = await http.get(Uri.parse(url));

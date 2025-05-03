@@ -1,6 +1,7 @@
 import 'package:allamvizsga/Screens/Auth/LoginScreen.dart';
 import 'package:allamvizsga/Screens/Mainscreens/ProfileScreen/Screens/about_screen.dart';
 import 'package:allamvizsga/Screens/Mainscreens/ProfileScreen/Screens/favorites_screen.dart';
+import 'package:allamvizsga/Screens/Mainscreens/ProfileScreen/Screens/update_email.dart';
 import 'package:allamvizsga/network/apiclient.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -101,7 +102,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AboutScreen(
+        builder: (context) => UpdateEmailPage(
+          userId: widget.userId,
+          currentEmail: _email,
         ),
       ),
     );
@@ -143,7 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       )
                           : CircleAvatar(
                         radius: 100,
-                        backgroundImage: AssetImage('assets/profile.png'),
+                        backgroundImage: AssetImage('assets/profile.jpg'),
                       ),
                       GestureDetector(
                         onTap: changeProfilePicture,
@@ -208,66 +211,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => AboutScreen(
-                          ),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      fixedSize: Size(300, 50),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)
-                        )
-                    ),
-                    icon: Icon(Icons.phone, color: Colors.blue, size: 24),
-                    label: Text(
-                      'Phone settings',
-                      style: GoogleFonts.italiana(
-                        textStyle: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) {
-                            return AboutScreen();
-                          },
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      fixedSize: Size(300, 50),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)
-                        )
-                    ),
-                    icon: Icon(Icons.account_circle_outlined, color:Colors.blue, size: 24),
-                    label: Text(
-                      'Profile Information',
-                      style: GoogleFonts.italiana(
-                        textStyle: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
+
                   SizedBox(height: 20),
                   ElevatedButton.icon(
                     onPressed: () {

@@ -6,6 +6,8 @@ import 'package:allamvizsga/network/constants.dart' as constant;
 import 'LoginScreen.dart';
 
 class RegistrationScreen extends StatefulWidget {
+  const RegistrationScreen({super.key});
+
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
