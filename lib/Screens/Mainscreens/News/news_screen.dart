@@ -49,6 +49,7 @@ class NewsScreen extends StatefulWidget {
 class _NewsScreenState extends State<NewsScreen> {
   late Future<List<Article>> futureArticles;
   String selectedCategory = 'All';
+  List<bool> expansionState = [];
 
   final List<Map<String, dynamic>> categories = [
     {'name': 'All', 'icon': Icons.all_inbox_outlined},
@@ -64,13 +65,17 @@ class _NewsScreenState extends State<NewsScreen> {
   }
 
   Future<List<Article>> fetchArticles() async {
-    print('Fetching articles for category: $selectedCategory'); // Debug log
     final response = await http.get(
-        Uri.parse("${constant.cim}news.php?category=$selectedCategory"));
+      Uri.parse("${constant.cim}news.php?category=$selectedCategory"),
+    );
 
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);
-      return jsonResponse.map((article) => Article.fromJson(article)).toList();
+      List<Article> articles = jsonResponse.map((article) => Article.fromJson(article)).toList();
+
+      expansionState = List.filled(articles.length, false);
+
+      return articles;
     } else {
       throw Exception('Failed to load articles');
     }
@@ -79,72 +84,69 @@ class _NewsScreenState extends State<NewsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-          children: [
-      Container(
-      color: Color(0xFFEBEBEB),
-
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 20),
-            color: Colors.blue,
-            child: Column(
-              children: [
-                Text('News', style: TextStyle(fontSize: 32,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold)
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: categories.map((category) {
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedCategory = category['name'];
-                          futureArticles = fetchArticles();
-                        });
-                      },
-                      child: Column(
-                        children: [
-                          Icon(
-                            category['icon'],
+      body: Stack(children: [
+        Container(
+          color: Color(0xFFEBEBEB),
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                color: Colors.blue,
+                child: Column(
+                  children: [
+                    Text('News',
+                        style: TextStyle(
+                            fontSize: 32,
                             color: Colors.white,
-                            size: 40,
+                            fontWeight: FontWeight.bold)),
+                    SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: categories.map((category) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedCategory = category['name'];
+                              futureArticles = fetchArticles();
+                            });
+                          },
+                          child: Column(
+                            children: [
+                              Icon(
+                                category['icon'],
+                                color: Colors.white,
+                                size: 40,
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                category['name'],
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 5),
-                          Text(
-                            category['name'],
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                )
-              ],
-            ),
+                        );
+                      }).toList(),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                child: FutureBuilder<List<Article>>(
+                  future: futureArticles,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return _buildArticleList(snapshot.data!);
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text("${snapshot.error}"));
+                    }
+                    return Center(child: CircularProgressIndicator());
+                  },
+                ),
+              ),
+            ],
           ),
-          Expanded(
-            child: FutureBuilder<List<Article>>(
-              future: futureArticles,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return _buildArticleList(snapshot.data!);
-                } else if (snapshot.hasError) {
-                  return Center(child: Text("${snapshot.error}"));
-                }
-                return Center(child: CircularProgressIndicator());
-              },
-            ),
-          ),
-        ],
-      ),
-
-    ),
-  ],
-    ),
+        ),
+      ]),
     );
   }
 
@@ -194,7 +196,7 @@ class _NewsScreenState extends State<NewsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            filteredArticles[index].title ?? '',
+                            filteredArticles[index].title,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -204,7 +206,8 @@ class _NewsScreenState extends State<NewsScreen> {
                           SizedBox(height: 5),
                           Text(
                             DateFormat('yyyy-MM-dd').format(
-                              DateTime.tryParse(filteredArticles[index].date) ?? DateTime.now(),
+                              DateTime.tryParse(filteredArticles[index].date) ??
+                                  DateTime.now(),
                             ),
                             style: TextStyle(
                               fontStyle: FontStyle.italic,
@@ -213,31 +216,44 @@ class _NewsScreenState extends State<NewsScreen> {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            filteredArticles[index].description ?? '',
+                            filteredArticles[index].description,
                             style: TextStyle(
                               color: Colors.white,
                             ),
                           ),
                           SizedBox(height: 20),
-                          ExpansionTile(
-                            title: Text(
-                              'Read more',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
+                          Theme(
+                            data: Theme.of(context).copyWith(
+                              dividerColor: Colors.transparent,
                             ),
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                                child: Text(
-                                  filteredArticles[index].content ?? '',
-                                  style: TextStyle(
-                                    color: Colors.white,
+                            child: ExpansionTile(
+                              tilePadding: EdgeInsets.zero,
+                              title: Text(
+                                expansionState.length > index && expansionState[index]
+                                    ? 'Close'
+                                    : 'Read more',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onExpansionChanged: (bool expanded) {
+                                setState(() {
+                                  if (expansionState.length > index) {
+                                    expansionState[index] = expanded;
+                                  }
+                                });
+                              },
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                  child: Text(
+                                    filteredArticles[index].content,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(height: 10),
-                            ],
+                                SizedBox(height: 10),
+                              ],
+                            ),
                           ),
                         ],
                       ),
