@@ -74,22 +74,22 @@ class _UpdateEmailPageState extends State<UpdateEmailPage> {
               children: [
                 Text(
                   textAlign: TextAlign.center,
-                  "Adja meg az új E-mail címet majd a kitöltés után nyomja meg a Frissítés gombot!",
+                  "Enter your new e-mail address and after filling in the form, press the Update button!",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20),
                 TextFormField(
                   controller: _newEmailController,
                   decoration: InputDecoration(
-                    labelText: 'Új E-mail',
+                    labelText: 'New email address',
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Kérlek adj meg egy E-mail címet';
+                      return 'Please provide an Email address';
                     }
                     final emailRegex = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
                     if (!emailRegex.hasMatch(value)) {
-                      return 'Kérlek adj meg egy valós E-mail címet';
+                      return 'Please enter a valid Email address';
                     }
                     return null;
                   },
@@ -97,10 +97,10 @@ class _UpdateEmailPageState extends State<UpdateEmailPage> {
                 SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
+                      backgroundColor: Colors.orange,
                   ),
                   onPressed: _updateEmail,
-                  child: Text("Email Frissítése",
+                  child: Text("Update Email",
                     style:TextStyle(color: Colors.white,
                     fontSize: 18) ,
                   ),

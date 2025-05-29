@@ -30,7 +30,7 @@ class _EventsState extends State<Events> {
 
   Future<void> loadFavorites() async {
     try {
-      favoriteIds = await getFavoriteEvents(widget.userId); // widget.userId-t kell használni
+      favoriteIds = await getFavoriteEvents(widget.userId);
       setState(() {});
     } catch (e) {
       print("Hiba a kedvencek betöltésekor: $e");
@@ -62,7 +62,7 @@ class _EventsState extends State<Events> {
 
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body);
-      List<String> favoriteEventIds = data.map((event) => event['event_id'].toString()).toList(); // Az id-ket stringgé konvertáljuk
+      List<String> favoriteEventIds = data.map((event) => event['event_id'].toString()).toList();
       return favoriteEventIds;
     } else {
       throw Exception('Hiba történt a kedvencek lekérése közben');
@@ -98,7 +98,7 @@ class _EventsState extends State<Events> {
       }
     });
 
-    toggleFavoriteOnServer(widget.userId, id, isFavorite); // widget.userId-t kell használni
+    toggleFavoriteOnServer(widget.userId, id, isFavorite);
   }
 
   @override

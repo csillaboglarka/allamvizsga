@@ -1,0 +1,2 @@
+C:/Users/Csilla/Documents/GitHub/allamvizsga/android/app/.cxx/Debug/z1h3c413/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/Csilla/Documents/GitHub/allamvizsga/android/app/.cxx/Debug/z1h3c413/armeabi-v7a/CMakeFiles/rebuild_cache.dir

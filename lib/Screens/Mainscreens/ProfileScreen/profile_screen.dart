@@ -167,7 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: 20),
                   Text(
                     '$_firstName $_lastName',
-                    style: GoogleFonts.italiana(
+                    style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                         fontFamily: 'Graduate',
                         fontSize: 24,
@@ -202,7 +202,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     icon: Icon(Icons.email, color: Colors.blue, size: 24),
                     label: Text(
                       'E-mail settings',
-                      style: GoogleFonts.italiana(
+                      style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -234,7 +234,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     icon: Icon(Icons.favorite_border, color:Colors.blue, size: 24),
                     label: Text(
                       'Favorites',
-                      style: GoogleFonts.italiana(
+                      style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -265,7 +265,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     icon: Icon(Icons.info_outline, color:Colors.blue, size: 24),
                     label: Text(
                       'Information',
-                      style: GoogleFonts.italiana(
+                      style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -284,7 +284,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     icon: Icon(Icons.logout, color: Colors.white),
                     label: Text(
                       'Log Out',
-                      style: GoogleFonts.italiana(
+                      style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,

@@ -25,8 +25,8 @@ class WelcomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  "About City\nAbout You",
-                  style: GoogleFonts.italiana(
+                  "Live Smarter\nMove Faster",
+                  style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                         fontSize: 34,
                         fontWeight: FontWeight.bold,

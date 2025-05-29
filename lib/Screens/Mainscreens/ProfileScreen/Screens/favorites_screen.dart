@@ -1,9 +1,9 @@
-import 'package:allamvizsga/Screens/Mainscreens/Events/DetailScreens/ListWidget_DetailScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:allamvizsga/network/constants.dart' as constants;
 import 'package:allamvizsga/Screens/Mainscreens/Events/Widgets/ListWidget.dart';
+import 'package:allamvizsga/Screens/Mainscreens/Events/DetailScreens/ListWidget_DetailScreen.dart';
 
 class Favorites extends StatefulWidget {
   final String userId;
@@ -27,7 +27,7 @@ class _FavoritesState extends State<Favorites> {
     final response = await http.get(
       Uri.parse('${constants.cim}get_favoritesOnProfile.php?user_id=${widget.userId}'),
     );
-    print(response.body);
+
     if (response.statusCode == 200) {
       setState(() {
         favoriteEvents = json.decode(response.body);
@@ -39,18 +39,19 @@ class _FavoritesState extends State<Favorites> {
 
   Future<void> removeFavoriteEvent(String eventId) async {
     final response = await http.post(
-      Uri.parse('${constants.cim}remove_favorite.php'),
+      Uri.parse('${constants.cim}favorites.php'),
       headers: {'Content-Type': 'application/json'},
       body: json.encode({
         'user_id': widget.userId,
-        'event_id': eventId,
+        'event_id': int.parse(eventId),
+        'is_favorite': false, // ez fontos
       }),
     );
 
     if (response.statusCode == 200) {
       final result = json.decode(response.body);
       print(result['message']);
-      fetchFavoriteEvents(); // Frissítjük a kedvencek listáját
+      await fetchFavoriteEvents(); // frissítés a szerverről
     } else {
       print('Hiba történt a kedvenc eltávolításakor');
     }
@@ -62,18 +63,19 @@ class _FavoritesState extends State<Favorites> {
       MaterialPageRoute(
         builder: (context) => DetailListScreen(idDoc: id),
       ),
-    );
+    ).then((_) {
+      fetchFavoriteEvents();
+    });
   }
 
-  void toggleFavorite(String id, bool isFavorite) {
-    setState(() {
-      if (isFavorite) {
-        favoriteEvents!.removeWhere((event) => event['event_id'].toString() == id);
-      } else {
-        fetchFavoriteEvents();
-      }
-    });
-    removeFavoriteEvent(id);
+  void toggleFavorite(String id, bool isFavorite) async {
+    if (isFavorite) {
+      setState(() {
+        favoriteEvents?.removeWhere((event) => event['event_id'].toString() == id);
+      });
+
+      await removeFavoriteEvent(id);
+    }
   }
 
   @override
@@ -86,22 +88,24 @@ class _FavoritesState extends State<Favorites> {
       ),
       body: favoriteEvents == null
           ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-        padding: const EdgeInsets.all(20),
-        itemCount: favoriteEvents!.length,
-        itemBuilder: (context, index) {
-          final event = favoriteEvents![index];
-          final eventId = event['event_id'].toString(); // Int -> String
-          final isFavorite = true;
+          : RefreshIndicator(
+        onRefresh: fetchFavoriteEvents,
+        child: ListView.builder(
+          padding: const EdgeInsets.all(20),
+          itemCount: favoriteEvents!.length,
+          itemBuilder: (context, index) {
+            final event = favoriteEvents![index];
+            final eventId = event['event_id'].toString();
 
-          return ListCard(
-            cultureData: event,
-            onPressed: navigateToDetailListScreen,
-            favoriteIds: [eventId],
-            onFavoriteToggle: toggleFavorite,
-            isFavorite: isFavorite,
-          );
-        },
+            return ListCard(
+              cultureData: event,
+              onPressed: navigateToDetailListScreen,
+              favoriteIds: [eventId],
+              onFavoriteToggle: toggleFavorite,
+              isFavorite: true,
+            );
+          },
+        ),
       ),
     );
   }

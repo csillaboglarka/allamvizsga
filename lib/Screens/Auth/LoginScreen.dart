@@ -24,6 +24,9 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     var response = jsonDecode(res.body);
+
+    print("Login response: $response");
+
     if (response["success"] == true) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -31,9 +34,12 @@ class _LoginScreenState extends State<LoginScreen> {
           duration: Duration(seconds: 2),
         ),
       );
+
+      String userId = response["userId"].toString();
+
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => MainScreen(userId: response["userId"])),
+        MaterialPageRoute(builder: (context) => MainScreen(userId: userId)),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -95,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
-                        hintText: 'Jelszó',
+                        hintText: 'Password',
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(

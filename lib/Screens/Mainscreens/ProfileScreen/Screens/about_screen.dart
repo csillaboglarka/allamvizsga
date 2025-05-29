@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 
 class AboutScreen extends StatelessWidget {
   final String termsAndConditions = '''
-  Az alkalmazás felhasználói csak valós problémákat küldhetnek be!
-  Az alkalmazás felhasználóinak az adatait titkosítva vannak! 
-  Nagyon remélem, hogy tetszik a programom! 
-  További szép napot és köszönöm a figyelmet! 
+By using this app, you agree to responsible use. 
+The data of the app's users is encrypted. 
   ''';
 
   final String contactEmail = 'info@cityapp.com';
-  final String contactnumber = '0757788888';
+  final String contactnumber = '0750000000';
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +22,7 @@ class AboutScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Felhasználói feltételek',
+                'Terms of use',
                 style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10.0),
@@ -34,7 +32,7 @@ class AboutScreen extends StatelessWidget {
               ),
               SizedBox(height: 20.0),
               Text(
-                'Elérhetőség',
+                'Contact',
                 style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10.0),
@@ -43,7 +41,7 @@ class AboutScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 18.0),
               ),
               Text(
-                'Telefonszám: $contactnumber',
+                'Phone: $contactnumber',
                 style: TextStyle(fontSize: 18.0),
               ),
             ],

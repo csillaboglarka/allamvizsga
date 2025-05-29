@@ -158,7 +158,7 @@ class _BusScreenState extends State<BusScreen> {
 
       if (vonal.isEmpty || vonal == '0') {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Nincs buszjárat')),
+          SnackBar(content: Text('There is no direct bus connection between the stations.')),
         );
       } else {
         Map<String, String> utazasAdatok = await fetchUtazasIdo(sourceCity!.value, destinationCity!.value);
@@ -282,7 +282,7 @@ class _BusScreenState extends State<BusScreen> {
                           searchBuses();
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Kérlek válassz megállókat!')),
+                            SnackBar(content: Text('Please choose your stations!')),
                           );
                         }
                       },

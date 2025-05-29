@@ -54,7 +54,7 @@ class _TaxiScreenState extends State<TaxiScreen> {
       await launchUrl(uri);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Nem lehet megnyitni a tárcsázót.')),
+        const SnackBar(content: Text('The dialer cannot be opened.')),
       );
     }
   }

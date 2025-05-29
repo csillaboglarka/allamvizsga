@@ -61,20 +61,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   void _showIncompleteFieldsSnackbar() {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Tölts ki mindent')),
+      SnackBar(content: Text('Complete all fields')),
     );
   }
 
   void _showSuccessSnackbar() {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('A Regisztráció sikeres volt')),
+      SnackBar(content: Text('The registration was successful')),
     );
   }
 
   void _showPasswordRequirementsSnackbar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(
-          'A jelszónak legalább 8 karakterből kell állnia és legalább egy nagy betűt tartalmaznia kell')),
+          'Password must be at least 8 characters long and contain at least one upper case letter')),
     );
   }
 

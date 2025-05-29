@@ -13,8 +13,6 @@ class DetailListScreen extends StatefulWidget {
   _DetailListScreenState createState() => _DetailListScreenState();
 }
 
-final LatLng marosvasarhelyCoords = LatLng(46.5421, 24.5569);
-
 class _DetailListScreenState extends State<DetailListScreen> {
   late Future<Map<String, dynamic>> fetchDataFuture;
   late GoogleMapController mapController;
@@ -279,10 +277,9 @@ class _DetailListScreenState extends State<DetailListScreen> {
     }
   }
 
-  // Térkép vezérlő inicializálása
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
-    mapController.setMapStyle(darkMapStyle);  // Alkalmazzuk a sötét stílust
+    mapController.setMapStyle(darkMapStyle);
   }
 
   @override
@@ -313,6 +310,10 @@ class _DetailListScreenState extends State<DetailListScreen> {
           final eventDate = data['event_date'] ?? '';
           final eventCity = data['event_city'] ?? '';
           final eventName = data['event_name'] ?? '';
+          final eventDescription = data['description'] ?? '';
+          final xCord = double.tryParse(data['xCordination'] ?? '') ?? 46.5421;
+          final yCord = double.tryParse(data['yCordination'] ?? '') ?? 24.5569;
+          final LatLng eventCoords = LatLng(xCord, yCord);
 
           return Column(
             children: [
@@ -338,7 +339,7 @@ class _DetailListScreenState extends State<DetailListScreen> {
                       Container(
                         padding: EdgeInsets.all(10),
                         child: Text(
-                          eventCity,
+                          eventName,
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -374,7 +375,6 @@ class _DetailListScreenState extends State<DetailListScreen> {
                         ],
                       ),
                       SizedBox(height: 20),
-
                       Text(
                         'About the Event',
                         style: TextStyle(
@@ -391,7 +391,7 @@ class _DetailListScreenState extends State<DetailListScreen> {
                           border: Border.all(color: Colors.grey.shade300),
                         ),
                         child: Text(
-                          'Join us for an unforgettable night of music and entertainment featuring top artistsdsd dssad asd asdasd asds sadas dsad sad asda sdsa asdsa sdddddddddddddddddddddddddddddddddddddddddddddddddddd.',
+                          eventDescription,
                           style: TextStyle(color: Colors.black),
                         ),
                       ),
@@ -412,21 +412,21 @@ class _DetailListScreenState extends State<DetailListScreen> {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(15),
-                        child: GoogleMap(
-                          onMapCreated: _onMapCreated,
-                          initialCameraPosition: CameraPosition(
-                            target: marosvasarhelyCoords,
-                            zoom: 14.0,
-                          ),
-                          markers: {
-                            Marker(
-                              markerId: MarkerId("marosvasarhely"),
-                              position: marosvasarhelyCoords,
-                              infoWindow: InfoWindow(title: "Marosvásárhely"),
+                          child: GoogleMap(
+                            onMapCreated: _onMapCreated,
+                            initialCameraPosition: CameraPosition(
+                              target: eventCoords,
+                              zoom: 14.0,
                             ),
-                          },
+                            markers: {
+                              Marker(
+                                markerId: MarkerId("eventLocation"),
+                                position: eventCoords,
+                                infoWindow: InfoWindow(title: eventName),
+                              ),
+                            },
+                          ),
                         ),
-                      ),
                       ),
                     ],
                   ),
