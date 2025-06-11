@@ -6,8 +6,8 @@ By using this app, you agree to responsible use.
 The data of the app's users is encrypted. 
   ''';
 
-  final String contactEmail = 'info@cityapp.com';
-  final String contactnumber = '0750000000';
+  final String contactEmail = 'info@app.com';
+  final String contactnumber = '0700000000';
 
   @override
   Widget build(BuildContext context) {

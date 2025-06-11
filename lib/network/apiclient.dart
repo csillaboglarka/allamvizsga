@@ -17,7 +17,6 @@ class ApiClient {
   // API nevek
   final String _profilePath = 'profile.php';
   final String _uploadimgPath = 'upload_profile_picture.php';
-  final String _uploadReportImgPath = 'upload_report_picture.php';
   final String _sharePath = '/share.php';
 
   // Field nevek
@@ -81,17 +80,6 @@ class ApiClient {
     ));
   }
 
-  Future<UploadImgResponse> uploadReportPhoto({required String uid, required List<String> files}) async {
-    return UploadImgResponse.fromJson(await _postMultipart(
-        path: _uploadReportImgPath,
-        arguments: <String, String>{
 
-        },
-        files: await _buildImageFiles(
-            key: 'profilePicture',
-            path: files,
-            contentType: MediaType('image', 'png'))
-    ));
-  }
 
 }

@@ -33,7 +33,7 @@ class _EventsState extends State<Events> {
       favoriteIds = await getFavoriteEvents(widget.userId);
       setState(() {});
     } catch (e) {
-      print("Hiba a kedvencek betöltésekor: $e");
+      print("Failed to load favorites: $e");
     }
   }
 
@@ -44,7 +44,7 @@ class _EventsState extends State<Events> {
         cultures = json.decode(response.body);
       });
     } else {
-      throw Exception('Failed to load culture data');
+      throw Exception('Failed to load events data');
     }
   }
 
@@ -65,7 +65,7 @@ class _EventsState extends State<Events> {
       List<String> favoriteEventIds = data.map((event) => event['event_id'].toString()).toList();
       return favoriteEventIds;
     } else {
-      throw Exception('Hiba történt a kedvencek lekérése közben');
+      throw Exception('ERROR getting favorites');
     }
   }
 
@@ -85,7 +85,7 @@ class _EventsState extends State<Events> {
       final result = json.decode(response.body);
       print(result['message']);
     } else {
-      print('Hiba: ${response.statusCode}');
+      print('Error: ${response.statusCode}');
     }
   }
 
